@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.Core.apps.CoreConfig',
     'apps.Posts.apps.PostsConfig',
     'apps.Media.apps.MediaConfig',
+    'apps.Authors.apps.AuthorsConfig',
 ]
 
 MIDDLEWARE = [

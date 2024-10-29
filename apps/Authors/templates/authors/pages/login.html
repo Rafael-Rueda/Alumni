@@ -1,0 +1,45 @@
+{% extends 'global/base/base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="login-container">
+    <h2>Login</h2>
+    <div class="form">
+        <form action="{% url 'authors:login' %}" method="POST">
+            {% csrf_token %}
+
+            <!-- Display non-field errors at the top -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Display each field and its errors -->
+            {% for field in form %}    
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="submit">
+                <button type="submit">Continue</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
