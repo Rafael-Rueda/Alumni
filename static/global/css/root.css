@@ -1,0 +1,43 @@
+:root {
+    --color-primary: #b2f2bb; /* Verde-claro principal */
+    --color-primary-dark: #63d38f; /* Verde-claro mais escuro */
+    --color-secondary: #f7fff9; /* Branco suavizado */
+    --color-text: #1d1d1d; /* Cor do texto */
+    --color-error: #ff6b6b; /* Vermelho claro para erros */
+    --border-radius: 8px; /* Arredondamento dos elementos */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: grid;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-text);
+}
+
+header, footer {
+    width: 100vw;
+    margin: 0 auto;
+    left: 0;
+    position: relative;
+}
+
+.header, .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--color-primary-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--color-primary);
+    box-sizing: border-box;
+}

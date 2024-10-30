@@ -1,21 +1,8 @@
-{% load static %}
-<footer class="site-footer">
-    <div class="container">
-        <div class="footer-logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        <div class="footer-nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <div class="footer-social">
-            <a href="#"><img src="{% static 'images/facebook-icon.png' %}" alt="Facebook"></a>
-            <a href="#"><img src="{% static 'images/twitter-icon.png' %}" alt="Twitter"></a>
-            <a href="#"><img src="{% static 'images/instagram-icon.png' %}" alt="Instagram"></a>
-        </div>
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2024 Alumni. Todos direitos reservados.</p>
+        <nav>
+            <a href="{% url 'posts:post_list' %}">Politica de privacidade</a> |
+        </nav>
     </div>
 </footer>

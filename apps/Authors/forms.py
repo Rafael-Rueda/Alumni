@@ -3,7 +3,6 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
 from utils.django_forms import field_attr
 
 
@@ -12,16 +11,16 @@ class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        field_attr(self.fields['password'], 'placeholder', 'Type your password here')
-        field_attr(self.fields['password2'], 'placeholder', 'Type your password again')
-        field_attr(self.fields['email'], 'placeholder', 'Type your email here')
-        field_attr(self.fields['first_name'], 'placeholder', 'Ex: John')
-        field_attr(self.fields['last_name'], 'placeholder', 'Ex: Doe')
+        field_attr(self.fields['password'], 'placeholder', 'Digite sua senha aqui')
+        field_attr(self.fields['password2'], 'placeholder', 'Digite sua senha novamente')
+        field_attr(self.fields['email'], 'placeholder', 'Digite seu email aqui')
+        field_attr(self.fields['first_name'], 'placeholder', 'Ex: Fulano')
+        field_attr(self.fields['last_name'], 'placeholder', 'Ex: Silva')
 
     # Form fields
 
-    password = forms.CharField(required=True, widget=forms.PasswordInput(), label='Password')
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput(), label='Repeat password')
+    password = forms.CharField(required=True, widget=forms.PasswordInput(), label='Senha')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(), label='Repita a senha')
 
     # Meta class for ModelForm
 
@@ -33,7 +32,7 @@ class RegisterForm(forms.ModelForm):
         }
         widgets = {
             'username': forms.TextInput(attrs={
-                'placeholder': 'Type your username here'
+                'placeholder': 'Digite seu usuário aqui',
             }),
             'email': forms.EmailInput(attrs={
                 'required': True
@@ -47,16 +46,16 @@ class RegisterForm(forms.ModelForm):
         }
         error_messages = {
             'email': {
-                'required': 'This field is required.'
+                'required': 'Esse campo é obrigatório.'
             },
             'first_name': {
-                'required': 'This field is required.'
+                'required': 'Esse campo é obrigatório.'
             },
             'last_name': {
-                'required': 'This field is required.'
+                'required': 'Esse campo é obrigatório.'
             },
             'username': {
-                'required': 'This field is required.'
+                'required': 'Esse campo é obrigatório.'
             },
         }
     
@@ -68,9 +67,9 @@ class RegisterForm(forms.ModelForm):
 
         if regex.match(data) == None:
             if len(data) < 8 or len(data) > 32:
-                raise ValidationError('The password must be in a range of 8-32 characters')
+                raise ValidationError('A senha deve ter entre 8-32 caracteres.')
             else:
-                raise ValidationError('The password must contain only valid characters')
+                raise ValidationError('A senha deve conter apenas caracteres válidos.')
         
         # always return the data
         return data
@@ -79,7 +78,7 @@ class RegisterForm(forms.ModelForm):
         data = self.cleaned_data['first_name'].strip()
 
         if len(data) < 3:
-            raise ValidationError('This field is required (Min. 3 characters length).')
+            raise ValidationError('Esse campo é obrigatório (Mín. 3 caracteres).')
 
         return data
     
@@ -87,7 +86,7 @@ class RegisterForm(forms.ModelForm):
         data = self.cleaned_data['last_name'].strip()
 
         if len(data) < 3:
-            raise ValidationError('This field is required (Min. 3 characters length).')
+            raise ValidationError('Esse campo é obrigatório (Mín. 3 caracteres).')
 
         return data
     
@@ -95,10 +94,10 @@ class RegisterForm(forms.ModelForm):
         data = self.cleaned_data['email'].strip()
 
         if not '@' in data:
-            raise ValidationError('An email should contain a "@".')
+            raise ValidationError('O email deve conter um "@".')
         
         if User.objects.filter(email=data).exists():
-            raise ValidationError('This email already exists.')
+            raise ValidationError('Esse email já está em uso.')
 
         return data
     
@@ -110,16 +109,24 @@ class RegisterForm(forms.ModelForm):
         if password and password2:
             if password != password2:
                 raise ValidationError({
-                    'password': 'Passwords must be equal.',
-                    'password2': 'Passwords must be equal.'
+                    'password': 'As senhas devem ser iguais.',
+                    'password2': 'As senhas devem ser iguais.'
                 })
 
 class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        field_attr(self.fields['username'], 'placeholder', 'Type your username here')
-        field_attr(self.fields['password'], 'placeholder', 'Type your password here')
+        field_attr(self.fields['login'], 'placeholder', 'Digite seu usuário ou e-mail aqui')
+        field_attr(self.fields['password'], 'placeholder', 'Digite sua senha aqui')
 
-    username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'required': True}))
-    password = forms.CharField(max_length=32, widget=forms.PasswordInput(attrs={'required': True}))
+    login = forms.CharField(
+        max_length=300,
+        widget=forms.TextInput(attrs={'required': True}),
+        label='Usuário ou E-mail'
+    )
+    password = forms.CharField(
+        max_length=32,
+        widget=forms.PasswordInput(attrs={'required': True}),
+        label='Senha'
+    )

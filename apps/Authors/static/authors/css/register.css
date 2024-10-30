@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
     background-color: var(--color-secondary);
     padding: 40px;
     border-radius: var(--border-radius);
@@ -9,11 +9,11 @@
     transition: transform 0.3s ease;
 }
 
-.login-container:hover {
+.register-container:hover {
     transform: scale(1.03);
 }
 
-.login-container h2 {
+.register-container h2 {
     color: var(--color-primary-dark);
     margin-bottom: 20px;
     font-weight: bold;
@@ -48,17 +48,9 @@
     border-color: var(--color-primary-dark);
 }
 
-.text-danger p {
+.form-group .errorlist {
     color: var(--color-error);
     font-size: 0.875em;
-}
-
-.alert {
-    background-color: var(--color-error);
-    color: white;
-    padding: 10px;
-    border-radius: var(--border-radius);
-    font-size: 0.9em;
 }
 
 .submit {
