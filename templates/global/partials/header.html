@@ -5,8 +5,12 @@
     <nav class="nav">
         <ul>
             <li><a href="{% url 'posts:post_list' %}">Home</a></li>
-            <li><a href="{% url 'authors:register' %}">Register</a></li>
-            <li><a href="{% url 'authors:login' %}">Login</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'authors:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'authors:register' %}">Registrar-se</a></li>
+                <li><a href="{% url 'authors:login' %}">Login</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

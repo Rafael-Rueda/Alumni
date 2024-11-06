@@ -137,3 +137,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # CKEditor Settings
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+AUTH_USER_MODEL = 'Authors.CustomUser'

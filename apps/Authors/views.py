@@ -1,8 +1,9 @@
 import re
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+
+from apps.Authors.models import CustomUser
 
 from . import forms
 
@@ -25,9 +26,9 @@ def login_view(request):
             if re.match(r"[^@]+@[^@]+\.[^@]+", login_input):
                 # Try authenticating with email
                 try:
-                    username = User.objects.get(email=login_input).username
+                    username = CustomUser.objects.get(email=login_input).username
                     user = authenticate(request, username=username, password=password)
-                except User.DoesNotExist:
+                except CustomUser.DoesNotExist:
                     user = None
             else:
                 # If not an email, authenticate with username
@@ -35,9 +36,9 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                return redirect('/posts')
             else:
-                if not User.objects.filter(username=login_input).exists() and not User.objects.filter(email=login_input).exists():
+                if not CustomUser.objects.filter(username=login_input).exists() and not CustomUser.objects.filter(email=login_input).exists():
                     form.add_error('login', 'Usuário ou e-mail não encontrado!')
                 else:
                     form.add_error('password', 'Senha incorreta!')

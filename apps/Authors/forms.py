@@ -1,10 +1,10 @@
 import re
 
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from utils.django_forms import field_attr
+from apps.Authors.models import CustomUser
+from utils.django_forms import field_attr, validate_cpf
 
 
 class RegisterForm(forms.ModelForm):
@@ -17,6 +17,7 @@ class RegisterForm(forms.ModelForm):
         field_attr(self.fields['email'], 'placeholder', 'Digite seu email aqui')
         field_attr(self.fields['first_name'], 'placeholder', 'Ex: Fulano')
         field_attr(self.fields['last_name'], 'placeholder', 'Ex: Silva')
+        field_attr(self.fields['cpf'], 'placeholder', 'Digite o seu CPF aqui')
 
     # Form fields
 
@@ -26,16 +27,18 @@ class RegisterForm(forms.ModelForm):
     # Meta class for ModelForm
 
     class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        model = CustomUser
+        fields = ('cpf', 'username', 'email', 'first_name', 'last_name')
         labels = {
             'username': 'Usuário',
             'email': 'Email',
             'first_name': 'Nome',
-            'last_name': 'Sobrenome'
+            'last_name': 'Sobrenome',
+            'cpf': 'CPF'
         }
         widgets = {
             'username': forms.TextInput(attrs={
+                'required': True,
                 'placeholder': 'Digite seu usuário aqui',
             }),
             'email': forms.EmailInput(attrs={
@@ -47,8 +50,14 @@ class RegisterForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={
                 'required': True
             }),
+            'cpf': forms.TextInput(attrs={
+                'required': True
+            })
         }
         error_messages = {
+            'cpf': {
+                'required': 'Esse campo é obrigatório.'
+            },
             'email': {
                 'required': 'Esse campo é obrigatório.'
             },
@@ -59,6 +68,7 @@ class RegisterForm(forms.ModelForm):
                 'required': 'Esse campo é obrigatório.'
             },
             'username': {
+                'unique': 'Esse usuário já está em uso.',
                 'required': 'Esse campo é obrigatório.'
             },
         }
@@ -100,8 +110,19 @@ class RegisterForm(forms.ModelForm):
         if not '@' in data:
             raise ValidationError('O email deve conter um "@".')
         
-        if User.objects.filter(email=data).exists():
+        if CustomUser.objects.filter(email=data).exists():
             raise ValidationError('Esse email já está em uso.')
+
+        return data
+    
+    def clean_cpf(self):
+        data = self.cleaned_data['cpf'].strip()
+
+        if not validate_cpf(data):
+            raise ValidationError('CPF inválido.')
+
+        if CustomUser.objects.filter(cpf=data).exists():
+            raise ValidationError('Esse CPF já está em uso.')
 
         return data
     

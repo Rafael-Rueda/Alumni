@@ -1,6 +1,7 @@
 from ckeditor.fields import RichTextField
-from django.contrib.auth.models import User
 from django.db import models
+
+from apps.Authors.models import CustomUser
 
 
 class Category(models.Model):
@@ -23,7 +24,7 @@ class Post(models.Model):
     content = RichTextField()  # Campo de conteúdo usando CKEditor
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
 
