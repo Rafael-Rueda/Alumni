@@ -7,7 +7,7 @@ Register
 {% block content %}
 
 <div class="register-container">
-    <h2>Register</h2>
+    <h2>Registro</h2>
     <div class="form">
         <form action="{% url 'authors:register' %}" method="POST">
             {% csrf_token %}
@@ -19,7 +19,7 @@ Register
                 </div>
             {% endfor %}
         <div class="submit">
-            <button type="submit">Register</button>
+            <button type="submit">Solicitar registro</button>
         </div>
         </form>
     </div>
